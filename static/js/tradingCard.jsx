@@ -60,20 +60,49 @@ function TradingCard(props) {
 }
 
 function TradingCardContainer() {
-  const tradingCards = [];
 
-  for (const currentCard of tradingCardData) {
+  // const floatCard = {
+  //   name: 'Float',
+  //   skill: 'baking pretzels',
+  //   imgUrl: '/static/img/float.jpg'
+  // };
+
+  // // getting all the cards via json and then "stuff we want to happen every time the component renders"
+  // React.useEffect(() => { 
+  //   fetch('/cards.json')
+  //   .then((response) => response.json())  
+  //   .then((data) => {
+  //     // seeing the json data being pulled from the python server in midst of ajax request
+  //     console.log(data)
+  //     return setCards(data.cards) 
+  //     }   
+  //   )
+  //  }, []); 
+
+    // getting all the cards via json and then "stuff we want to happen every time the component renders"
+    React.useEffect(() => { 
+      fetch('/cards.json')
+      .then((response) => response.json())  
+      .then((data) => setCards(data.cards))}, []); 
+  
+
+  const [cards, setCards] = React.useState([])
+
+  const tradingCards = [];
+  
+  for (const currentCard of cards) {
     tradingCards.push(
       <TradingCard
         key={currentCard.cardId}
-        name={currentCard.name}
+      name={currentCard.name}
         skill={currentCard.skill}
         imgUrl={currentCard.imgUrl}
       />,
     );
   }
 
-  return <div className="grid">{tradingCards}</div>;
+  return (
+    <div className="grid">{tradingCards}</div>);
 }
 
 ReactDOM.render(<TradingCardContainer />, document.getElementById('container'));
